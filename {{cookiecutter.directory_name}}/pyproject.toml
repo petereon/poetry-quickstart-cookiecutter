@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "{{cookiecutter.project_name}}"
+version = "{{cookiecutter.version}}"
+description = "Because tests should be easy to read"
+authors = ["{{cookiecutter.author}} <{{cookiecutter.email}}>"]
+license = "{{cookiecutter.license}}"
+repository = 'https://github.com/petereon/{{cookiecutter.project_name}}'
+readme = 'README.md'
+keywords = ["python"]
+classifiers = [
+    'License :: OSI Approved :: {{cookiecutter.license}} License',
+    'Programming Language :: Python :: {{cookiecutter.python_version}}',
+]
+packages = [
+    { include = "{{cookiecutter.project_name}}", from = "src" },
+]
+
+
+[tool.poetry.dependencies]
+python = "{{cookiecutter.python_version}}"
+
+
+[tool.poetry.dev-dependencies]
+# Formatting and Typing
+black = { version = "*", allow-prereleases = true }
+flake8 = "^4.0.0"
+mypy = "^0.942"
+
+# Pytest: Unit Testing
+pytest = "^6.0.0"
+pytest-describe = "^2.0.0"
+pytest-describe-it = "^0.1.0"
+
+# Pytest: Utils
+pytest-watch = "^4.2.0"
+
+# Pytest: Coverage
+pytest-cov = "^3.0.0"
+
+# Pytest: BDD
+pytest-bdd = "^5.0.0"
+
+# Pytest: Pretty
+pytest-sugar = "^0.9.0"
+pytest-clarity = "^1.0.0"
+
+# Formatting and Typing
+pytest-black = "^0.3.0"
+pytest-flake8 = "^1.1.0"
+pytest-mypy = "^0.9.0"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+python_files = [ "*test*.py",]
+python_functions = [ "test",]
+minversion = "6.0"
+addopts = "--mypy --flake8 --black -p no:warnings --cov-config=.coveragerc test" 
+testpaths = [ "test",]
+bdd_features_base_dir = "./test/bdd/features"
+markers = [
+    "bdd: marks tests as bdd (deselect with '-m \"not bdd\"')",
+    "unit",
+]

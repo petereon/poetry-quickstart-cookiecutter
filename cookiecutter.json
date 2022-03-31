@@ -1,0 +1,13 @@
+{
+    "directory_name": "python-example-project",
+    "project_name": "python-example-project",
+    "author": "Peter Vyboch",
+    "email": "pvyboch1@gmail.com",
+    "description": "A simple python project",
+    "license": "MIT",
+    "version": "0.1.0",
+    "python_version": "^3.9",
+    "_copy_without_render": [
+        ".github"
+    ]
+}
