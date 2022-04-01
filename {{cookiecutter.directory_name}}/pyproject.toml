@@ -16,6 +16,18 @@ packages = [
 ]
 
 
+[tool.poe.tasks]
+install = {shell = "poetry install"}
+build = {shell = "poetry build"}
+clean = {shell = "rm -R ./dist .pytest_cache .mypy_cache &> /dev/null"}
+
+test   = {shell = "pytest"}
+test-lint = {shell = "pytest --mypy --flake8 --black"}
+
+install-self = {shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall"}
+uninstall-self = {shell = "poetry run pip uninstall {{cookiecutter.project_name}}"}
+
+
 [tool.poetry.dependencies]
 python = "{{cookiecutter.python_version}}"
 
@@ -33,9 +45,6 @@ expects = "^0.9.0"
 pytest = "^6.0.0"
 pytest-describe = "^2.0.0"
 pytest-describe-it = "^0.1.0"
-
-# Pytest: Utils
-pytest-watch = "^4.2.0"
 
 # Pytest: Coverage
 pytest-cov = "^3.0.0"
@@ -62,7 +71,7 @@ build-backend = "poetry.core.masonry.api"
 python_files = [ "*test*.py",]
 python_functions = [ "test",]
 minversion = "6.0"
-addopts = "--mypy --flake8 --black -p no:warnings --cov-config=.coveragerc test" 
+addopts = "-p no:warnings --cov-config=.coveragerc test" 
 testpaths = [ "test",]
 bdd_features_base_dir = "./test/bdd/features"
 markers = [
