@@ -39,3 +39,8 @@ jobs:
     - name: Test with pytest
       run: |
         poe test
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.ACTIONS_TOKEN }}
+        path-to-lcov: coverage.xml
