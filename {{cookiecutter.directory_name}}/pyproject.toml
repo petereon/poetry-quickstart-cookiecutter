@@ -71,7 +71,7 @@ build-backend = "poetry.core.masonry.api"
 python_files = [ "*test*.py",]
 python_functions = [ "test",]
 minversion = "6.0"
-addopts = "-p no:warnings --cov-config=.coveragerc test" 
+addopts = "-p no:warnings --cov-config=.coveragerc --cov-report xml test" 
 testpaths = [ "test",]
 bdd_features_base_dir = "./test/bdd/features"
 markers = [
