@@ -11,21 +11,19 @@ classifiers = [
     'License :: OSI Approved :: {{cookiecutter.license}} License',
     'Programming Language :: Python :: {{cookiecutter.python_version}}',
 ]
-packages = [
-    { include = "{{cookiecutter.project_name}}", from = "src" },
-]
+packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 
 
 [tool.poe.tasks]
-install = {shell = "poetry install"}
-build = {shell = "poetry build"}
-clean = {shell = "rm -R ./dist .pytest_cache .mypy_cache &> /dev/null"}
+install = { shell = "poetry install" }
+build = { shell = "poetry build" }
+clean = { shell = "rm -R ./dist .pytest_cache .mypy_cache &> /dev/null" }
 
-test   = {shell = "pytest"}
-test-lint = {shell = "pytest --mypy --black"}
+test = { shell = "pytest" }
+test-lint = { shell = "pytest --mypy --black" }
 
-install-self = {shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall"}
-uninstall-self = {shell = "poetry run pip uninstall {{cookiecutter.project_name}}"}
+install-self = { shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall" }
+uninstall-self = { shell = "poetry run pip uninstall {{cookiecutter.project_name}}" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -33,11 +31,11 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.pytest.ini_options]
-python_files = [ "*test*.py",]
-python_functions = [ "test",]
+python_files = ["*test*.py"]
+python_functions = ["test"]
 minversion = "6.0"
-addopts = "-p no:warnings --cov-config=.coveragerc --cov-report xml test" 
-testpaths = [ "test",]
+addopts = "-p no:warnings --cov-config=.coveragerc --cov-report xml test"
+testpaths = ["test"]
 bdd_features_base_dir = "./test/bdd/features"
 markers = [
     "bdd: marks tests as bdd (deselect with '-m \"not bdd\"')",
@@ -62,7 +60,7 @@ black = { version = "*", allow-prereleases = true }
 mypy = "^0.942"
 
 # Expect Pattern Testing
-expects = "^0.9.0" 
+expects = "^0.9.0"
 
 # Pytest: Unit Testing
 pytest = "^6.0.0"
