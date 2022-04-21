@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Build and test Python package
+{% raw %}
+name: CI/CD
 
 on:
   push:
@@ -12,18 +12,18 @@ on:
 jobs:
   build:
     if: |
-      contains(github.event.head_commit.message, 'feat') || 
-      contains(github.event.head_commit.message, 'fix') || 
-      contains(github.event.head_commit.message, 'test') ||
-      contains(github.event.head_commit.message, 'refactor')
+      ! contains(github.event.head_commit.message, 'docs') && 
+      ! contains(github.event.head_commit.message, 'chore') 
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest]
-        python-version: ["3.6", "3.8", "3.10"]
+        os: [ubuntu-latest]
+        python-version: ["3.9"]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -35,12 +35,37 @@ jobs:
     - name: Build and install the library
       run: |
         poe build
-        poe install-self
     - name: Test with pytest
       run: |
+        export PYTHONPATH=$(pwd)/src
         poe test
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.ACTIONS_TOKEN }}
-        path-to-lcov: coverage.xml
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+{% endraw %}
+{%- if cookiecutter.deploy_to_deta == "Yes" -%}
+{% raw %}
+    - name: Install Deta CLI
+      shell: bash
+      run: |
+        curl -fsSL https://get.deta.dev/cli.sh | sh
+    - name: Clone Deta Metadata
+      shell: bash
+      run: |
+        export DETA_ACCESS_TOKEN=${{ secrets.DETA_TOKEN }}
+        cd src
+{% endraw %}
+        ~/.deta/bin/deta clone --name { cookiecutter.project_name } tmp/
+{% raw %}
+        cp -r tmp/.deta .
+    - name: Deploy to Deta
+      shell: bash
+      run: |
+        export DETA_ACCESS_TOKEN=${{ secrets.DETA_TOKEN }}
+        cd src
+        ~/.deta/bin/deta deploy
+{% endraw %}
+{% endif %}
+  
