@@ -57,7 +57,7 @@ jobs:
         export DETA_ACCESS_TOKEN=${{ secrets.DETA_TOKEN }}
         cd src
 {% endraw %}
-        ~/.deta/bin/deta clone --name { cookiecutter.project_name } tmp/
+        ~/.deta/bin/deta clone --name {{ cookiecutter.project_name }} tmp/
 {% raw %}
         cp -r tmp/.deta .
     - name: Deploy to Deta
