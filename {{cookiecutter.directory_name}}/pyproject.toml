@@ -9,7 +9,7 @@ readme = 'README.md'
 keywords = ["python"]
 classifiers = [
     'License :: OSI Approved :: {{cookiecutter.license}} License',
-    'Programming Language :: Python :: {{cookiecutter.python_version}}',
+    'Programming Language :: Python :: 3',
 ]
 packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 
