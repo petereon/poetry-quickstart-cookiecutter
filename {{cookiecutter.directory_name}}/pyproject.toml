@@ -22,6 +22,9 @@ clean = { shell = "rm -R ./dist .pytest_cache .mypy_cache &> /dev/null" }
 test = { shell = "pytest" }
 test-lint = { shell = "pytest --mypy --black" }
 
+format = { shell = "poetry run black ." }
+lint = { shell = "poetry run mypy ." }
+
 install-self = { shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall" }
 uninstall-self = { shell = "poetry run pip uninstall {{cookiecutter.project_name}}" }
 
