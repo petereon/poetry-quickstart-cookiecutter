@@ -89,3 +89,6 @@ pytest-mypy = "^0.9.0"
 
 # Task Runner
 poethepoet = "*"
+
+# CI
+pre-commit = "*"
