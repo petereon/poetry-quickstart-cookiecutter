@@ -1,4 +1,4 @@
 TO-DO: 
-- [ ] Add mypy, flake8 and black configs
-- [ ] Run test workflow files
+- [x] Add mypy, flake8 and black configs
+- [x] Run test workflow files
 - [x] Find a way to include shell scripts in poetry
