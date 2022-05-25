@@ -15,6 +15,7 @@ packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 
 
 [tool.poe.tasks]
+add = { shell = "poetry add" }
 install = { shell = "poetry install" }
 build = { shell = "poetry build" }
 clean = { shell = "rm -R ./dist .pytest_cache .mypy_cache &> /dev/null" }
