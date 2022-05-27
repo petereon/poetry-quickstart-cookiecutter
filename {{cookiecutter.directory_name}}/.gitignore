@@ -12,3 +12,5 @@ coverage.xml
 
 # Built distributions
 dist/
+
+.vscode

@@ -1,13 +1,79 @@
 repos:
-- repo: local
-  hooks:
-    - id: formatter
-      name: Run Black formatter
-      entry: bash -c 'poe format'
-      language: system
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+    - id: check-builtin-literals
+      args: ['--no-allow-dict-kwargs']
+    - id: debug-statements
+    - id: end-of-file-fixer
+    - id: name-tests-test
+    - id: sort-simple-yaml
+    - id: trailing-whitespace
+      exclude: ".*.md$"
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.2.1
+    hooks:
+    - id: add-trailing-comma
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        stages: [commit]
+        language: system
+        entry: poetry run black
+        types: [python]
 
-- repo: https://github.com/compilerla/conventional-pre-commit
-  rev: v1.2.0
-  hooks:
-    - id: conventional-pre-commit
-      stages: [commit-msg]
+      - id: detect-secrets
+        name: Detect secrets
+        description: Detects high entropy strings that are likely to be passwords.
+        language: system
+        entry: poetry run detect-secrets-hook
+        args: ['--baseline', '.secrets.baseline']
+
+      - id: pflake8
+        name: pflake8
+        stages: [commit]
+        language: system
+        entry: poetry run pflake8
+        types: [python]
+        exclude: setup.py
+
+      - id: gitlint
+        name: gitlint
+        stages: [commit-msg]
+        language: system
+        entry: poetry run gitlint
+        args:
+          - "--staged"
+          - "--msg-filename"
+
+      - id: isort
+        name: isort
+        stages: [commit]
+        language: system
+        entry: poetry run isort
+        types: [python]
+
+      - id: mypy
+        name: mypy
+        stages: [commit]
+        language: system
+        entry: poetry run mypy .
+        types: [python]
+        pass_filenames: false
+
+      - id: pytest-cov
+        name: pytest
+        stages: [push]
+        language: system
+        entry: poe test
+        types: [python]
+        pass_filenames: false
+
+      - id: toml-sort
+        name: toml-sort
+        stages: [commit]
+        language: system
+        entry: poetry run toml-sort
+        pass_filenames: False
+        files: pyproject.toml
