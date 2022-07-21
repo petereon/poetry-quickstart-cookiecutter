@@ -66,7 +66,7 @@ repos:
         name: pytest
         stages: [push]
         language: system
-        entry: poe test
+        entry: poetry run poe test
         types: [python]
         pass_filenames: false
 
