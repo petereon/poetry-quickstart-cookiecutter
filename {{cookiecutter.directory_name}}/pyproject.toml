@@ -22,7 +22,7 @@ isort = { shell = "poetry run isort ./src" }
 black = { shell = "poetry run black ./src/" }
 mypy = { shell = "poetry run mypy ./src/" }
 flake8 = {shell = "poetry run pflake8 ./src/"}
-checks = { shell = """poetry run isort ./src && echo '\nBlack:' && poetry run black ./src/ && echo '\nMyPy:' && poetry run mypy ./src/ && echo '\nFlake8:' && poetry run pflake8 ./src/ """}
+lint = { shell = """poetry run isort ./src && echo '\nBlack:' && poetry run black ./src/ && echo '\nMyPy:' && poetry run mypy ./src/ && echo '\nFlake8:' && poetry run pflake8 ./src/ && poetry run pymarkdownlint """}
 
 test = { shell = "poetry run pytest --pspec -p no:warnings --cov-report=xml --cov-report=term-missing --cov-fail-under=100 --junitxml=.pytest_cache/pytest-report.xml --verbose --verbosity=9 --cache-clear --rootdir='.' --cov={{cookiecutter.project_name}} && sed -i \"s#$(pwd)#.#g\" coverage.xml" }
 test-watch = { shell = "poetry run ptw test/ -- --cov-report=term-missing --cov={{cookiecutter.project_name}}" }
@@ -81,6 +81,7 @@ max-line-length = 140
 max-complexity = 18
 select = ["B","C","E","F","W","T4","B9"]
 
+
 [tool.poetry.dependencies]
 python = "{{cookiecutter.python_version}}"
 
@@ -88,26 +89,32 @@ python = "{{cookiecutter.python_version}}"
 [tool.poetry.dev-dependencies]
 # Code Scanning and Formatting
 black = { version = "*", allow-prereleases = true }
+mypy = "^0.942"
 pyproject-flake8 = "*"
+
+## Bugs
+
 flake8-bugbear = "^22.7.1"
 flake8-simplify = "^0.19.2"
 flake8-pie = "^0.15.0"
-flake8-commas = "^2.1.0"
-flake8-comprehensions = "^3.10.0"
+flake8-bandit = "^3.0.0"
+
+## Complexity
+
+flake8-cognitive-complexity = "^0.1.0"
+flake8-expression-complexity = "^0.0.11"
+radon = "^5.1.0"
+xenon = "^0.9.0"
+
+## Lints
+
 flake8-quotes = "^3.3.1"
 flake8-print = "^5.0.0"
 flake8-eradicate = "^1.2.1"
 flake8-comments = "^0.1.2"
-flake8-unused-arguments = "^0.0.10"
-flake8-useless-assert = "^0.4.3"
-mypy = "^0.942"
-radon = "^5.1.0"
-
-flake8-mypy = "17.8.0" 
 
 toml-sort = "*"
 isort = "*"
-
 
 # Expect Pattern Testing
 expects = "^0.9.0"
