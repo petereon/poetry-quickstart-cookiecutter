@@ -24,8 +24,8 @@ mypy = { shell = "poetry run mypy ./src/" }
 flake8 = {shell = "poetry run pflake8 ./src/"}
 lint = { shell = """poetry run isort ./src && echo '\nBlack:' && poetry run black ./src/ && echo '\nMyPy:' && poetry run mypy ./src/ && echo '\nFlake8:' && poetry run pflake8 ./src/ && poetry run pymarkdownlint """}
 
-test = { shell = "poetry run pytest --pspec -p no:warnings --cov-report=xml --cov-report=term-missing --cov-fail-under=100 --junitxml=.pytest_cache/pytest-report.xml --verbose --verbosity=9 --cache-clear --rootdir='.' --cov={{cookiecutter.project_name}} && sed -i \"s#$(pwd)#.#g\" coverage.xml" }
-test-watch = { shell = "poetry run ptw test/ -- --cov-report=term-missing --cov={{cookiecutter.project_name}}" }
+test = { shell = "poetry run ward" }
+test:watch = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns="*.py;*.feature;*.toml" --recursive --command="ward"" }
 
 save = "sh ./scripts/save.sh"
 
@@ -113,6 +113,7 @@ expycted = "^0.5.0"
 ward = "^0.66.1-beta.0"
 mock = "4.0.3"
 mutatest = "*"
+watchdog = "^2.1.9"
 
 # Coverage
 ward-coverage = "^0.1.4"
