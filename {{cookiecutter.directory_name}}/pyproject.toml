@@ -10,6 +10,8 @@ keywords = ["python"]
 classifiers = ['License :: OSI Approved :: {{cookiecutter.license}} License', 'Programming Language :: Python :: 3']
 packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 
+[tool.poe]
+verbosity = -1
 
 [tool.poe.tasks]
 init = { shell = "pre-commit install --install-hooks -t commit-msg -t pre-push -t pre-commit" }
@@ -25,7 +27,7 @@ flake8 = {shell = "poetry run pflake8 ./src/"}
 lint = { shell = """poetry run isort ./src && echo '\nBlack:' && poetry run black ./src/ && echo '\nMyPy:' && poetry run mypy ./src/ && echo '\nFlake8:' && poetry run pflake8 ./src/ && poetry run pymarkdownlint """}
 
 "test" = { shell = "poetry run ward" }
-"test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --command='ward'" }
+"test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='ward'" }
 
 save = "sh ./scripts/save.sh"
 
