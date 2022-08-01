@@ -24,8 +24,8 @@ mypy = { shell = "poetry run mypy ./src/" }
 flake8 = {shell = "poetry run pflake8 ./src/"}
 lint = { shell = """poetry run isort ./src && echo '\nBlack:' && poetry run black ./src/ && echo '\nMyPy:' && poetry run mypy ./src/ && echo '\nFlake8:' && poetry run pflake8 ./src/ && poetry run pymarkdownlint """}
 
-test = { shell = "poetry run ward" }
-test:watch = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --command='ward'" }
+"test" = { shell = "poetry run ward" }
+"test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --command='ward'" }
 
 save = "sh ./scripts/save.sh"
 
