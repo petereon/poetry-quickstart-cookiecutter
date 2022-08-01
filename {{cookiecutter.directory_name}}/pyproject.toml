@@ -36,15 +36,8 @@ uninstall-self = { shell = "poetry run pip uninstall {{cookiecutter.project_name
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-
-[tool.pytest.ini_options]
-python_files = ["*test*.py"]
-python_functions = ["test"]
-minversion = "6.0"
-testpaths = ["test"]
-bdd_features_base_dir = "./test/bdd/features"
-markers = ["bdd: marks tests as bdd (deselect with '-m \"not bdd\"')","unit: marks tests as unit (deselect with '-m \"not unit\"')"]
-
+[tool.ward]
+hook_module = ["ward_coverage"]
 
 [tool.coverage.run]
 omit = ['*test*']
@@ -93,21 +86,18 @@ mypy = "^0.942"
 pyproject-flake8 = "*"
 
 ## Bugs
-
 flake8-bugbear = "^22.7.1"
 flake8-simplify = "^0.19.2"
 flake8-pie = "^0.15.0"
 flake8-bandit = "^3.0.0"
 
 ## Complexity
-
 flake8-cognitive-complexity = "^0.1.0"
 flake8-expression-complexity = "^0.0.11"
 radon = "^5.1.0"
 xenon = "^0.9.0"
 
 ## Lints
-
 flake8-quotes = "^3.3.1"
 flake8-print = "^5.0.0"
 flake8-eradicate = "^1.2.1"
@@ -117,25 +107,15 @@ toml-sort = "*"
 isort = "*"
 
 # Expect Pattern Testing
-expects = "^0.9.0"
+expycted = "^0.5.0"
 
-# Pytest: Unit Testing
-pytest = "^6.0.0"
-pytest-watch = "^4.2.0"
-pytest-describe = "^2.0.0"
-pytest-describe-it = "^0.1.0"
-pytest-mock = "^3.7.0"
+# Unit Testing
+ward = "^0.66.1-beta.0"
+mock = "4.0.3"
 mutatest = "*"
 
-# Pytest: Coverage
-pytest-cov = "^3.0.0"
-
-# Pytest: BDD
-pytest-bdd = "^5.0.0"
-
-# Pytest: Pretty
-pytest-pspec = "^0.0.4"
-pytest-icdiff = "^0.5"
+# Coverage
+ward-coverage = "^0.1.4"
 
 # Task Runner
 poethepoet = "*"
