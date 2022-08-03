@@ -24,7 +24,12 @@ isort = { shell = "poetry run isort ./src" }
 black = { shell = "poetry run black ./src/" }
 mypy = { shell = "poetry run mypy ./src/" }
 flake8 = {shell = "poetry run pflake8 ./src/"}
-lint = { shell = """poetry run isort ./src && echo '\nBlack:' && poetry run black ./src/ && echo '\nMyPy:' && poetry run mypy ./src/ && echo '\nFlake8:' && poetry run pflake8 ./src/ && poetry run pymarkdownlint """}
+lint = { shell = """echo '\nRunning isort:' && poetry run isort ./src && 
+                    echo '\nRunning black:' && poetry run black ./src/ && 
+                    echo '\nRunning mypy:' && poetry run mypy ./src/ && 
+                    echo '\nRunning flake8:' && poetry run pflake8 ./src/ && 
+                    echo '\nRunning pymarkdownlint:' && poetry run pymarkdownlint && 
+                    echo '\nRunning perflint...' && poetry run perflint ./src/"""}
 
 "test" = { shell = "poetry run ward" }
 "test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='ward'" }
@@ -104,9 +109,11 @@ flake8-quotes = "^3.3.1"
 flake8-print = "^5.0.0"
 flake8-eradicate = "^1.2.1"
 flake8-comments = "^0.1.2"
-
 toml-sort = "*"
 isort = "*"
+
+## Performance
+perflint = "^0.7.3"
 
 # Expect Pattern Testing
 expycted = "^0.5.0"
