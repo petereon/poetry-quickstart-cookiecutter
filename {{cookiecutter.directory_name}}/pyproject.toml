@@ -14,7 +14,6 @@ packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 verbosity = -1
 
 [tool.poe.tasks]
-init = { shell = "pre-commit install --install-hooks -t commit-msg -t pre-push -t pre-commit" }
 add = { shell = "poetry add" }
 install = { shell = "poetry install" }
 build = { shell = "poetry build" }
@@ -34,7 +33,7 @@ lint = { shell = """echo '\nRunning isort:' && poetry run isort ./src &&
 "test" = { shell = "poetry run ward" }
 "test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='ward'" }
 
-save = "sh ./scripts/save.sh"
+save = { shell = "sh ./scripts/save.sh"}
 
 install-self = { shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall" }
 uninstall-self = { shell = "poetry run pip uninstall {{cookiecutter.project_name}}" }
