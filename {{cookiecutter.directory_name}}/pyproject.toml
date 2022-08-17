@@ -23,17 +23,14 @@ isort = { shell = "poetry run isort ./src" }
 black = { shell = "poetry run black ./src/" }
 mypy = { shell = "poetry run mypy ./src/" }
 flake8 = {shell = "poetry run pflake8 ./src/"}
-lint = { shell = """echo '\nRunning isort:' && poetry run isort ./src && 
-                    echo '\nRunning black:' && poetry run black ./src/ && 
-                    echo '\nRunning mypy:' && poetry run mypy ./src/ && 
-                    echo '\nRunning flake8:' && poetry run pflake8 ./src/ && 
-                    echo '\nRunning pymarkdownlint:' && poetry run pymarkdownlint && 
-                    echo '\nRunning perflint...' && poetry run perflint ./src/"""}
+lint = { shell = """echo 'Running isort...' && poetry run isort ./src &&
+                    echo 'Running black...' && poetry run black ./src/ &&
+                    echo 'Running mypy...' && poetry run mypy ./src/ &&
+                    echo 'Running flake8...' && poetry run pflake8 ./src/ &&
+                    echo 'Running perflint...' && poetry run perflint ./src/"""}
 
 "test" = { shell = "poetry run ward" }
 "test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='ward'" }
-
-save = { shell = "sh ./scripts/save.sh"}
 
 install-self = { shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall" }
 uninstall-self = { shell = "poetry run pip uninstall {{cookiecutter.project_name}}" }
