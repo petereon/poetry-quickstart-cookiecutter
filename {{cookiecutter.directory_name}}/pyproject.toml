@@ -21,13 +21,12 @@ build = { shell = "poetry build" }
 isort = { shell = "poetry run isort ./src/" }
 black = { shell = "poetry run black ./src/" }
 mypy = { shell = "poetry run mypy ./src/" }
-flake8 = {shell = "poetry run pflake8 ./src/"}
+flake8 = {shell = "poetry run flake8 ./src/"}
 perflint = { shell = "poetry run perflint ./src/" }
 "lint" = { shell = """echo 'Running isort...' && poetry run poe isort &&
                     echo 'Running black...' && poetry run poe black &&
                     echo 'Running mypy...' && poetry run poe mypy &&
-                    echo 'Running flake8...' && poetry run poe flake8 &&
-                    echo 'Running perflint...' && poetry run poe perflint"""}
+                    echo 'Running flake8...' && poetry run poe flake8"""}
 
 "lint:watch" = {shell = "poetry run poe lint; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='echo \"\nDetected changes, rerunning...\n\" ; poetry run poe lint'"}
 
@@ -45,13 +44,14 @@ build-backend = "poetry.core.masonry.api"
 
 [[tool.pydoc-markdown.loaders]]
 type = 'python'
-search_path = ['./beaupy']
+search_path = ['./src']
 
 [tool.pydoc-markdown.renderer]
 type = 'markdown'
 
 [tool.ward]
 hook_module = ["ward_coverage"]
+path = ["test"]
 
 [tool.coverage.run]
 omit = ['*test*']
@@ -97,6 +97,7 @@ python = "{{cookiecutter.python_version}}"
 # Code Scanning and Formatting
 black = { version = "*", allow-prereleases = true }
 mypy = "^0.942"
+flake8 = "<5.0.0"
 pyproject-flake8 = "*"
 
 ## Bugs
