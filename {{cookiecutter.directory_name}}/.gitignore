@@ -13,4 +13,5 @@ coverage.xml
 # Built distributions
 dist/
 
-.vscode
+.vscode/*
+!.vscode/*.code-snippets
