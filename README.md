@@ -1,5 +1,16 @@
 # poetry-quickstart-cookiecutter
-Honed cookiecutter quickstart for my Python projects
+Honed cookiecutter quickstart for Python projects
+
+## Overview
+
+This cookie-cutter aims to bring `npm` levels of automation and simplicity to the life of Python developer, it is focused on productivity without compromises. It tries to be the `Mac` of cookie-cutters
+
+- It is infused with several years of professional experience with Python.
+- It strives to be powerful without feeling heavy.
+- It's tries to abstract away all the different tools and names into simple commands like `lint` or `test`.
+- It comes `watch` commands, allowing continuous testing and linting.
+- It comes pre-fitted with powerful set of linting and testing tools ready to help you build rock-solid state-of-art Python application.
+- It comes with opinionated config, so that you can focus on what's important - programming.
 
 ## Setup
 
@@ -13,16 +24,6 @@ This repo can be used as a template using:
 cookiecutter https://github.com/petereon/poetry-quickstart-cookiecutter.git
 ```
 
-Then dependencies can be installed using
-```sh
-poetry install
-```
-
-To setup precommit:
-```sh
-precommit install && pre-commit install --hook-type commit-msg
-```
-
 ### Notes
 
 - If you want to set up a SonarQube Scan, you will need to include a `SONAR_TOKEN` and `ACTIONS_TOKEN` in the repository secrets
@@ -31,11 +32,12 @@ precommit install && pre-commit install --hook-type commit-msg
 ## Usage
 
 There are `poe` tasks defined for most of the common needs:
-- `poe add` to add packages, which just duplicates `poetry add` for convenience
-- `poe install` to install the poetry deps from `pyproject.toml`
-- `poe build` to build a `.whl` package from the project
-- `poe clean` which deletes build artifacts and caches
-- `poe test` which runs the pytest
-- `poe test-lint` running pytest with additional `--mypy --black` flags to report linting and fromatting issues
-- `poe format` which runs `black` to format the code
-- `poe lint` which runs `mypy` to lint the code and report linting issues
+
+- `poe test` which runs the ward unit tests
+- `poe test:watch` which runs `poe test` in watch mode
+- `poe lint` which runs several linting solutions
+- `poe lint:watch` which runs `poe lint` in watch mode
+- `poe lint:perf` which runs `poe lint` and `perflint`
+- `poe bdd` which runs the behave bdd tests
+- `poe bdd:watch` which runs `poe bdd` in watch mode
+- `poe test:all` which runs `poe test` and `poe bdd`
