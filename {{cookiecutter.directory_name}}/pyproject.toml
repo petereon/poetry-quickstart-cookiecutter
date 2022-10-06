@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "{{cookiecutter.project_name}}"
-version = "{{cookiecutter.version}}"
+version = "0.1.0"
 description = "{{cookiecutter.description}}"
 authors = ["{{cookiecutter.author}} <{{cookiecutter.email}}>"]
 license = "{{cookiecutter.license}}"
@@ -14,29 +14,25 @@ packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 verbosity = -1
 
 [tool.poe.tasks]
-add = { shell = "poetry add" }
-install = { shell = "poetry install" }
-build = { shell = "poetry build" }
+"isort" = { shell = "poetry run isort ./src/" }
+"black" = { shell = "poetry run black ./src/" }
+"mypy" = { shell = "poetry run mypy ./src/" }
+"flake8" = {shell = "poetry run flake8 ./src/"}
+"perflint" = { shell = "poetry run perflint ./src/" }
 
-isort = { shell = "poetry run isort ./src/" }
-black = { shell = "poetry run black ./src/" }
-mypy = { shell = "poetry run mypy ./src/" }
-flake8 = {shell = "poetry run flake8 ./src/"}
-perflint = { shell = "poetry run perflint ./src/" }
-"lint" = { shell = """echo 'Running isort...' && poetry run poe isort &&
-                    echo 'Running black...' && poetry run poe black &&
-                    echo 'Running mypy...' && poetry run poe mypy &&
-                    echo 'Running flake8...' && poetry run poe flake8"""}
-
+"lint" = { shell = """echo 'Running isort...' && poetry run poe isort && echo 'Running black...' && poetry run poe black &&echo 'Running mypy...' && poetry run poe mypy &&echo 'Running flake8...' && poetry run poe flake8"""}
 "lint:watch" = {shell = "poetry run poe lint; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='echo \"\nDetected changes, rerunning...\n\" ; poetry run poe lint'"}
+"lint:perf" = { shell = "poe lint; echo 'Running perflint...' poe perflint;"}
 
 "test" = { shell = "poetry run ward" }
 "test:watch" = { shell = "poetry run ward; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='poetry run ward'" }
 
-docs = { shell = "poetry run pydoc-markdown > APIDOC.md"}
+"bdd" = { shell = "poetry run behave" }
+"bdd:watch" = { shell = "poetry run behave; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='poetry run behave'" }
 
-install-self = { shell = "poetry run pip install ./dist/$(ls ./dist | grep .whl | tail -n 1) --force-reinstall" }
-uninstall-self = { shell = "poetry run pip uninstall {{cookiecutter.project_name}}" }
+"test:all" = { shell = "poe test; poe bdd" }
+
+"docs" = { shell = "poetry run pydoc-markdown > APIDOC.md"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -53,8 +49,12 @@ type = 'markdown'
 hook_module = ["ward_coverage"]
 path = ["test"]
 
-[tool.coverage.run]
-omit = ['*test*']
+[tool.ward.plugins.coverage]
+report_type = ["term", "xml"]
+source = ["./src/"]
+omit = ["*test*", "**/__init__.py"]
+branch = true
+relative_files = true
 
 [tool.mypy]
 files = ["src","test"]
@@ -123,17 +123,16 @@ isort = "*"
 ## Performance
 perflint = "^0.7.3"
 
-# Expect Pattern Testing
-expycted = "^0.5.0"
-
-# Unit Testing
+# Testing
 ward = "^0.66.1-beta.0"
+behave = "^1.2.6"
 mock = "4.0.3"
+expycted = "^0.5.0"
 mutatest = "*"
-watchdog = "^2.1.9"
+atheris = "^2.0.12"
 
 # Coverage
-ward-coverage = "^0.1.4"
+ward-coverage = "^0.3.0"
 
 # Task Runner
 poethepoet = "*"
@@ -144,3 +143,6 @@ pydoc-markdown = "^4.6.3"
 # CI
 pre-commit = "*"
 detect-secrets = "^1.2.0"
+
+# Utils
+watchdog = "^2.1.9"

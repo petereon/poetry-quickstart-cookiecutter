@@ -1,0 +1,3 @@
+[behave]
+exclude_re="\.venv"
+paths=test/bdd/features

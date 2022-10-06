@@ -5,8 +5,7 @@
     "email": "pvyboch1@gmail.com",
     "description": "A template Python project",
     "license": "MIT",
-    "version": "0.1.0",
     "python_version": "^3.9",
     "deploy_to_deta": ["Yes", "No"],
     "sonarqube_scan": ["Yes", "No"]
-    }
+}
