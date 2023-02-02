@@ -14,13 +14,12 @@ packages = [{ include = "{{cookiecutter.project_name}}", from = "src" }]
 verbosity = -1
 
 [tool.poe.tasks]
-"isort" = { shell = "poetry run isort ./src/" }
 "black" = { shell = "poetry run black ./src/" }
 "mypy" = { shell = "poetry run mypy ./src/" }
-"flake8" = { shell = 'poetry run pflake8 ./src/' }
+"ruff" = { shell = 'poetry run ruff ./src/ --fix' }
 "perflint" = { shell = "poetry run perflint ./src/" }
 
-lint = { shell = 'echo "Running isort..." ; poetry run poe isort; echo "Running black..." ; poetry run poe black ; echo "Running unify..." ; poetry run unify ./src -r -i ; echo "Running flake8..." ; poetry run poe flake8 ; echo "Running mypy..." ; poetry run poe mypy ; echo Done!' }
+lint = { shell = 'echo "Running black..." ; poetry run poe black ; echo "Running unify..." ; poetry run unify ./src -r -i ; echo "Running ruff..." ; poetry run poe ruff ; echo "Running mypy..." ; poetry run poe mypy ; echo Done!' }
 "lint:watch" = {shell = "poetry run poe lint; poetry run watchmedo shell-command --patterns='*.py;*.feature;*.toml' --recursive --drop --command='echo \"\nDetected changes, rerunning...\n\" ; poetry run poe lint'"}
 "lint:perf" = { shell = "poe lint; echo 'Running perflint...' poe perflint;"}
 
@@ -82,42 +81,62 @@ line-length = 140
 skip-string-normalization = true
 extend-exclude = "(.venv)"
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["ALL"]
+ignore = []
 
-[tool.flake8]
-max-line-length = 140
-max-complexity = 18
-select = ["B","E","F","W","T4","B9"]
+fixable = ["A", "B", "C", "D", "E", "F", "Q", "ERA", "RUF", "PGH", "ARG", "ANN", "UP", "I"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+per-file-ignores = {}
+
+line-length = 140
+
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+target-version = "py310"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
 
 
 [tool.poetry.dependencies]
-python = "{{cookiecutter.python_version}}"
+python = "^3.9"
 
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+
 # Code Scanning and Formatting
 black = { version = "*", allow-prereleases = true }
+ruff = "^0.0.239"
 mypy = "^0.942"
-flake8 = "<5.0.0"
-pyproject-flake8 = "0.0.1a4"
-
-## Bugs
-flake8-simplify = '*'
-flake8-pie = '*'
-flake8-bandit = '*'
-
-## Complexity
-flake8-cognitive-complexity = '*'
-flake8-expression-complexity = '*'
 radon = '*'
 xenon = '*'
 
-## Lints
-flake8-quotes = '*'
-flake8-print = '*'
-flake8-eradicate = '*'
-flake8-comments = '*'
 toml-sort = '*'
 isort = '*'
 unify = "*"
