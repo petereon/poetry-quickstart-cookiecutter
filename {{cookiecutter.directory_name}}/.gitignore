@@ -1,6 +1,3 @@
-# Poetry artifacts
-poetry.lock
-
 # Test artifacts
 __pycache__
 .pytest_cache
@@ -15,3 +12,6 @@ dist/
 
 .vscode/*
 !.vscode/*.code-snippets
+
+*.env
+*venv
